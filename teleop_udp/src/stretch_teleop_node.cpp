@@ -11,7 +11,7 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
-#include "stretch_openxr/quest_udp_recv.hpp" // Assumes the receiver library is in the include path
+#include "teleop_udp/quest_udp_recv.hpp" // Assumes the receiver library is in the include path
 
 #include <memory>
 #include <chrono>
