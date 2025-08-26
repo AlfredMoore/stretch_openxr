@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(stretch_openxr)
+project(teleop_udp)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -12,17 +12,17 @@ find_package(geometry_msgs REQUIRED)
 
 include_directories(include)
 
-add_executable(teleop_udp 
+add_executable(quest_teleop 
   src/stretch_teleop_node.cpp
   src/quest_udp_recv.cpp
 )
 
-ament_target_dependencies(teleop_udp
+ament_target_dependencies(quest_teleop
   rclcpp
   geometry_msgs
 )
 
-install(TARGETS teleop_udp
+install(TARGETS quest_teleop
   DESTINATION lib/${PROJECT_NAME}
 )
 

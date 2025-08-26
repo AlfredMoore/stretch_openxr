@@ -4,8 +4,8 @@ from launch_ros.actions import Node
 def generate_launch_description():
     
     teleop_udp_node = Node(
-        package='stretch_openxr',  # Your package name
-        executable='teleop_udp',   # The executable name from add_executable
+        package='teleop_udp',  # Your package name
+        executable='quest_teleop',   # The executable name from add_executable
         name='stretch_teleop_node',
         output='screen',
         parameters=[{
