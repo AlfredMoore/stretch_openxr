@@ -35,7 +35,6 @@ Clone this repo to robot workspace, usually it is `~/ament_ws/src`.
 ```bash
 cd ~/ament_ws/src
 git clone https://github.com/AlfredMoore/stretch_openxr.git
-cd stretch_openxr
 ```
 
 ## 1. External Device
@@ -43,6 +42,7 @@ Scan all connected `Realsense` cameras on the robot and select one to publish fr
 
 ### Step a. Install and test realsenseZMQ
 ```bash
+cd stretch_openxr
 git submodule update --init --remote
 cd realsenseZMQ
 mkdir build && cd build
@@ -68,7 +68,7 @@ Run and show in local screen.
 
 ### Step b. Manage and Run realsenseZMQ by ROS 2
 ```bash
-cd <YOUR ROS2 WORKSPACE>
+cd ~/ament_ws # <YOUR ROS2 WORKSPACE>
 source /opt/ros/humble/setup.bash
 colcon build --symlink-install  # Build all packages or --packages-select for specific packages
 source install/setup.bash

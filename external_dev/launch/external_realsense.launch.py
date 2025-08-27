@@ -8,19 +8,20 @@ def generate_launch_description():
     # === IMPORTANT: SET THE PATH TO YOUR EXTERNAL EXECUTABLE HERE ===
     # ====================================================================
     # Replace this with the actual, absolute path to your application
-    executable_path = '/home/vr-robot/realsenseZMQ/build/rs_zmq_publisher'
+    executable_path = '~/ament_ws/src/stretch_openxr/realsenseZMQ/build/rs_zmq_publisher'
     # For example: '/usr/local/bin/my_network_app'
     # ====================================================================
 
     # Declare the launch arguments
     declare_serial_arg = DeclareLaunchArgument(
         'serial',
-        default_value='000000000000',
+        default_value='939622075130',
         description='Serial number for the RealSense camera 12 digits.'
     )
 
     declare_path_arg = DeclareLaunchArgument(
         'path',
+        default_value=executable_path,
         description='Path to the external executable.'
     )
 
