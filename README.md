@@ -27,9 +27,7 @@ Start stretch driver
 # In another terminal, test your stretch
 ros2 topic pub /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.1, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}" --once
 ```
-Test stretch navigation mode. This command makes robot move forward a bit.
-
-Fianlly, terminal previous process.
+Test stretch navigation mode. This command makes robot move forward a bit. Once success, you can close those processes.
 
 Clone this repo to robot workspace, usually it is `~/ament_ws/src`.
 ```bash
@@ -42,7 +40,7 @@ Scan all connected `Realsense` cameras on the robot and select one to publish fr
 
 ### Step a. Install and test realsenseZMQ
 ```bash
-cd stretch_openxr
+cd cd ~/ament_ws/src/stretch_openxr
 git submodule update --init --remote
 cd realsenseZMQ
 mkdir build && cd build
@@ -70,17 +68,23 @@ Run and show in local screen.
 ```bash
 cd ~/ament_ws # <YOUR ROS2 WORKSPACE>
 source /opt/ros/humble/setup.bash
-colcon build --symlink-install  # Build all packages or --packages-select for specific packages
+colcon build --symlink-install
 source install/setup.bash
 ```
 Then
 ```bash
 ros2 launch external_dev external_realsense.launch.py serial:=<RealsenseSerial> path:=<path to realsenseZMQ/build/rs_zmq_publisher>
 ```
+Default path: `~/ament_ws/src/stretch_openxr/realsenseZMQ/build/rs_zmq_publisher`
 
 ## 2. Teleoperation UDP
 Connect Meta Quest controller to teleoperate Stretch movement.
+Open one terminal, run following to start stretch driver and switch to `navigation` mode
+```bash
+ros2 launch stretch_core stretch_driver.launch.py mode:=navigation
+```
 
+In another terminal, run following to enble quest controller teleoperation.
 ```bash
 ros2 launch teleop_udp quest_teleop.launch.py port:=12345
 ```
