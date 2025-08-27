@@ -2,11 +2,39 @@
 
 Connect Stretch robot and ROS 2 with OpenXR seamlessly.
 
+## 0. Stretch
+```bash
+stretch_system_check.py
+```
+System check
+
+```bash
+stretch_robot_home.py
+```
+Home the robot
+
+```bash
+stretch_free_robot_process.py
+```
+Turning off Gamepad Teleoperation
+
+```bash
+ros2 launch stretch_core stretch_driver.launch.py mode:=navigation
+```
+Start stretch driver
+
+```bash
+# In another terminal, test your stretch
+ros2 topic pub /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.1, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}" --once
+```
+
+
 ## 1. External Device
 Scan all connected `Realsense` cameras on the robot and select one to publish frames to an address through `ZeroMQ` instead of ROS 2 image topics, and achive lower latency.
 
 ### Step a. Install and test realsenseZMQ
 ```bash
+cd stretch_openxr
 git submodule update --init --remote
 cd realsenseZMQ
 mkdir build && cd build
@@ -34,7 +62,7 @@ Run and show in local screen.
 ```bash
 cd <YOUR ROS2 WORKSPACE>
 source /opt/ros/humble/setup.bash
-colcon build --symlink  # Build all packages or --packages-select for specific packages
+colcon build --symlink-install  # Build all packages or --packages-select for specific packages
 source install/setup.bash
 ```
 Then

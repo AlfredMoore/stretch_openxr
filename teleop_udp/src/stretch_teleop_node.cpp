@@ -47,7 +47,7 @@ public:
             30ms, std::bind(&StretchTeleopNode::timer_callback, this));
         
         RCLCPP_INFO(this->get_logger(), "Stretch Teleop Node has started.");
-        RCLCPP_INFO(this->get_logger(), "Listening on UDP port %d", port);
+        RCLCPP_INFO(this->get_logger(), "Listening on UDP port %d, waiting for data...", port);
     }
 
 private:
