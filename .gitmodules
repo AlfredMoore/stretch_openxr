@@ -1,0 +1,3 @@
+[submodule "realsenseZMQ"]
+	path = realsenseZMQ
+	url = https://github.com/AlfredMoore/realsenseZMQ.git
