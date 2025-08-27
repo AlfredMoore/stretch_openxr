@@ -15,8 +15,13 @@ def generate_launch_description():
     # Declare the launch arguments
     declare_serial_arg = DeclareLaunchArgument(
         'serial',
-        default_value='000000000000',  # Replace with your camera's serial number
+        default_value='000000000000',
         description='Serial number for the RealSense camera 12 digits.'
+    )
+
+    declare_path_arg = DeclareLaunchArgument(
+        'path',
+        description='Path to the external executable.'
     )
 
     # declare_address_arg = DeclareLaunchArgument(
@@ -26,11 +31,12 @@ def generate_launch_description():
     # )
 
     serial = LaunchConfiguration('serial')
+    path = LaunchConfiguration('path')
     # address = LaunchConfiguration('address')
     
     run_external_app = ExecuteProcess(
         cmd=[
-            executable_path,
+            path,
             '--serial', serial,
             # '--show',
             # '--address', address,
@@ -40,6 +46,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         declare_serial_arg,
+        declare_path_arg,
         # declare_address_arg,
         run_external_app,
     ])

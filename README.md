@@ -1,0 +1,50 @@
+# Stretch OpenXR
+
+Connect Stretch robot and ROS 2 with OpenXR seamlessly.
+
+## 1. External Device
+Scan all connected `Realsense` cameras on the robot and select one to publish frames to an address through `ZeroMQ` instead of ROS 2 image topics, and achive lower latency.
+
+### Step a. Install and test realsenseZMQ
+```bash
+git submodule update --init --remote
+cd realsenseZMQ
+mkdir build && cd build
+cmake ..
+cmake --build . -j 16   # make -j16
+```
+Compile and Build. The built executable is `realsenseZMQ/build/rs_zmq_publisher`
+
+```bash
+./rs_zmq_publisher
+```
+Raw scan Realsense camera. You can get your Realsense serial here.
+
+```bash
+./rs_zmq_publisher --serial <RealsenseSerial>
+```
+Run with your desired serial number.
+
+```bash
+./rs_zmq_publisher --serial <RealsenseSerial> --show
+```
+Run and show in local screen.
+
+### Step b. Manage and Run realsenseZMQ by ROS 2
+```bash
+cd <YOUR ROS2 WORKSPACE>
+source /opt/ros/humble/setup.bash
+colcon build --symlink  # Build all packages or --packages-select for specific packages
+source install/setup.bash
+```
+Then
+```bash
+ros2 launch external_dev external_realsense.launch.py serial:=<RealsenseSerial> path:=<path to realsenseZMQ/build/rs_zmq_publisher>
+```
+
+## 2. Teleoperation UDP
+Connect Meta Quest controller to teleoperate Stretch movement.
+
+```bash
+ros2 launch teleop_udp quest_teleop.launch.py port:=12345
+```
