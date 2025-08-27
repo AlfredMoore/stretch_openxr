@@ -27,14 +27,22 @@ Start stretch driver
 # In another terminal, test your stretch
 ros2 topic pub /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.1, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}" --once
 ```
+Test stretch navigation mode. This command makes robot move forward a bit.
 
+Fianlly, terminal previous process.
+
+Clone this repo to robot workspace, usually it is `~/ament_ws/src`.
+```bash
+cd ~/ament_ws/src
+git clone https://github.com/AlfredMoore/stretch_openxr.git
+cd stretch_openxr
+```
 
 ## 1. External Device
 Scan all connected `Realsense` cameras on the robot and select one to publish frames to an address through `ZeroMQ` instead of ROS 2 image topics, and achive lower latency.
 
 ### Step a. Install and test realsenseZMQ
 ```bash
-cd stretch_openxr
 git submodule update --init --remote
 cd realsenseZMQ
 mkdir build && cd build
