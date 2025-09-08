@@ -12,6 +12,10 @@
 #include <iostream>
 #include <cstring> // For memset
 
+#ifndef _WIN32
+    #include <cerrno> // For errno, EWOULDBLOCK, EAGAIN
+#endif
+
 QuestUdpReceiver::QuestUdpReceiver(int port) : m_socket_fd(-1) {
     #ifdef _WIN32
         m_socket_fd = INVALID_SOCKET;
@@ -121,6 +125,7 @@ bool QuestUdpReceiver::receiveData(JoystickData& data) {
     struct sockaddr_in client_addr;
     
     // Receive data from the network
+    // ssize_t is not defined on Windows, use int for recvfrom return value
     #ifdef _WIN32
         // ssize_t is not defined on Windows, use int for recvfrom return value
         int bytes_received = recvfrom(m_socket_fd, 
@@ -137,5 +142,22 @@ bool QuestUdpReceiver::receiveData(JoystickData& data) {
                                         (struct sockaddr*)&client_addr, 
                                         &client_len);
     #endif
+    
+    if (bytes_received < 0) {
+        // On a non-blocking socket, an error can just mean "no data yet".
+        #ifdef _WIN32
+            if (WSAGetLastError() == WSAEWOULDBLOCK) {
+                return false; // This is expected when no data is available
+            }
+        #else
+            if (errno == EWOULDBLOCK || errno == EAGAIN) {
+                return false; // This is expected when no data is available
+            }
+        #endif
+        // If it's a different error, something is wrong.
+        // std::cerr << "Error: recvfrom failed with a real network error." << std::endl;
+        return false;
+    }
+
     return bytes_received == sizeof(JoystickData); // No data or incomplete data received
 }
