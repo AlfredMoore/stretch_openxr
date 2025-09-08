@@ -59,6 +59,31 @@ bool QuestUdpReceiver::init_socket(int port) {
         }
     #endif
 
+    // --- Set socket to non-blocking ---
+    #ifdef _WIN32
+        unsigned long mode = 1; // 1 for non-blocking
+        if (ioctlsocket(m_socket_fd, FIONBIO, &mode) != 0) {
+            std::cerr << "Error: Failed to set non-blocking socket on Windows." << std::endl;
+            closesocket(m_socket_fd);
+            m_socket_fd = INVALID_SOCKET;
+            return false;
+        }
+    #else
+        int flags = fcntl(m_socket_fd, F_GETFL, 0);
+        if (flags < 0) {
+            std::cerr << "Error: Failed to get socket flags on Linux." << std::endl;
+            close(m_socket_fd);
+            m_socket_fd = -1;
+            return false;
+        }
+        if (fcntl(m_socket_fd, F_SETFL, flags | O_NONBLOCK) < 0) {
+            std::cerr << "Error: Failed to set non-blocking socket on Linux." << std::endl;
+            close(m_socket_fd);
+            m_socket_fd = -1;
+            return false;
+        }
+    #endif
+
     struct sockaddr_in server_addr;
     memset(&server_addr, 0, sizeof(server_addr));
     server_addr.sin_family = AF_INET;

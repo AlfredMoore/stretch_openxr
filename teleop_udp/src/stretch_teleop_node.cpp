@@ -58,6 +58,8 @@ private:
         // Attempt to receive data from the network
         if (receiver_->receiveData(received_data))
         {
+            rclcpp::Time current_time = this->get_clock()->now();
+            rclcpp::Duration time_diff = current_time - last_receive_time_;
             // Create a new Twist message
             auto twist_msg = geometry_msgs::msg::Twist();
 
@@ -65,7 +67,7 @@ private:
             // Left stick Y-axis controls forward/backward movement (linear.x)
             // Left stick X-axis controls strafing movement (linear.y)
             // Right stick X-axis controls rotation (angular.z)
-            RCLCPP_INFO(this->get_logger(), "Received: left_y=%.2f, right_x=%.2f", received_data.left_y, received_data.right_x);
+            RCLCPP_INFO(this->get_logger(), "Received: left_y=%.2f, right_x=%.2f, time_diff=%.4f", received_data.left_y, received_data.right_x, time_diff.seconds());
 
             twist_msg.linear.x = received_data.left_y * linear_scale_;
             // twist_msg.linear.y = received_data.left_x * linear_scale_;
@@ -74,12 +76,16 @@ private:
             // Publish the message
             publisher_->publish(twist_msg);
         }
+        else{
+            RCLCPP_INFO(this->get_logger(), "No data received");
+        }
     }
 
     // Member Variables
     std::unique_ptr<QuestUdpReceiver> receiver_;
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_;
     rclcpp::TimerBase::SharedPtr timer_;
+    rclcpp::Time last_receive_time_{0, 0};
     double linear_scale_;
     double angular_scale_;
 };
