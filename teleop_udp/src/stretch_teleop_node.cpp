@@ -25,11 +25,11 @@ public:
     {
         // --- Parameters ---
         // Declare parameters for IP, port, and scaling factors for movement
-        this->declare_parameter<int>("udp_port", 12345);
+        this->declare_parameter<int>("port", 12345);
         this->declare_parameter<double>("linear_scale", 0.5); // m/s
         this->declare_parameter<double>("angular_scale", 0.5); // rad/s
 
-        int port = this->get_parameter("udp_port").as_int();
+        int port = this->get_parameter("port").as_int();
         linear_scale_ = this->get_parameter("linear_scale").as_double();
         angular_scale_ = this->get_parameter("angular_scale").as_double();
 
