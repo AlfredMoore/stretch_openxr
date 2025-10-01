@@ -49,6 +49,8 @@ cmake --build . -j 16   # make -j16
 ```
 Compile and Build. The built executable is `realsenseZMQ/build/rs_zmq_publisher`
 
+Now your current working path is <.../realsenseZMQ/build>
+
 ```bash
 ./rs_zmq_publisher
 ```
@@ -63,6 +65,19 @@ Run with your desired serial number.
 ./rs_zmq_publisher --serial <RealsenseSerial> --show
 ```
 Run and show in local screen.
+
+#### Data Collection
+Options:
+ * --collection: collect the dataset
+ * --config: load a specific config file, default `dataset_config.yaml`
+
+For more details, visit [this](https://github.com/AlfredMoore/realsenseZMQ/tree/main)
+
+```bash
+# You are in .../realsenseZMQ/build
+mkdir ../collection
+./rs_zmq_publisher --serial 939622075130 --collection
+```
 
 ### Step b. Manage and Run realsenseZMQ by ROS 2
 ```bash
