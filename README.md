@@ -25,7 +25,7 @@ Start stretch driver
 
 ```bash
 # In another terminal, test your stretch
-ros2 topic pub /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.1, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}" --once
+ros2 topic pub /stretch/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.1, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}" --once
 ```
 Test stretch navigation mode. This command makes robot move forward a bit. Once success, you can close those processes.
 
